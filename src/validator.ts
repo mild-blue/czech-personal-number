@@ -1,12 +1,15 @@
-const personalNumberAddingTwentyIssueYear = 4;
-const tenDigitPersonalNumberIssueYear = 54;
-const womanMonthAddition = 50;
-const unprobableMonthAddition = 20;
+import {
+  getPersonalNumberParts,
+  personalNumberAddingTwentyIssueYear,
+  tenDigitPersonalNumberIssueYear,
+  unprobableMonthAddition,
+  womanMonthAddition,
+} from './utils';
 
 const validateDate = (year: number, month: number, day: number): boolean => {
   const fullYear = year >= tenDigitPersonalNumberIssueYear ? 1900 + year : 2000 + year;
   try {
-    new Date(fullYear, month, day);
+    const _ = new Date(fullYear, month - 1, day);
     return true;
   } catch {
     return false;
@@ -16,25 +19,15 @@ const validateDate = (year: number, month: number, day: number): boolean => {
 /**
  * Personal number validator
  *
- * @param value - personal number with or without a slash symbol.
- * @return boolean - True if value is a valid personal number, False if value is not a valid personal number.
+ * @param value - The personal number with or without a slash symbol.
+ * @returns true if value is a valid personal number, false if value is not a valid personal number.
  */
 export const validate = (value: string): boolean => {
   if (!value) {
     return false;
   }
 
-  let firstPart = '';
-  let secondPart = '';
-
-  const parts = value.split('/');
-  if (parts.length === 1) {
-    firstPart = value.substr(0, 6);
-    secondPart = value.substr(6);
-  } else {
-    firstPart = parts[0];
-    secondPart = parts[1];
-  }
+  const { firstPart, secondPart } = getPersonalNumberParts(value);
 
   if (firstPart.length !== 6 || isNaN(Number(firstPart)) || isNaN(Number(secondPart))) {
     return false;
@@ -44,7 +37,7 @@ export const validate = (value: string): boolean => {
   let month = Number(firstPart.substr(2, 2));
   const day = Number(firstPart.substr(4, 2));
 
-  const currentYear = (new Date()).getFullYear() % 100;
+  const currentYear = new Date().getFullYear() % 100;
 
   if (year >= tenDigitPersonalNumberIssueYear || year <= currentYear) {
     if (secondPart.length === 4) {
@@ -53,7 +46,7 @@ export const validate = (value: string): boolean => {
 
       const moduloElevenOk = concatenated % 11 === 0;
       const withoutLastDigit = concatenated / 10;
-      const moduloTenOk = (withoutLastDigit % 11) === 10 && controlDigit === 0;
+      const moduloTenOk = withoutLastDigit % 11 === 10 && controlDigit === 0;
 
       if (!moduloTenOk && !moduloElevenOk) {
         return false;
