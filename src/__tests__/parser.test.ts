@@ -18,6 +18,7 @@ test('A female born on 18.05.2000', () => {
 
   expect(parse(`${firstPart}0${birthOrder}${controlDigit}`)).toEqual(expectedResult);
   expect(parse(`${firstPart}/0${birthOrder}${controlDigit}`)).toEqual(expectedResult);
+  expect(parse(`${firstPart}/${birthOrder}${controlDigit}`)).toEqual(undefined);
 });
 
 test('A male born on 04.10.1939', () => {
