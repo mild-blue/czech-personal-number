@@ -1,11 +1,4 @@
-import {
-  getAge,
-  getPersonalNumberParts,
-  personalNumberAddingTwentyIssueYear,
-  tenDigitPersonalNumberIssueYear,
-  unprobableMonthAddition,
-  womanMonthAddition,
-} from './utils';
+import { getAge, getPersonalNumberParts, tenDigitPersonalNumberIssueYear, unprobableMonthAddition, womanMonthAddition } from './utils';
 import { validate } from './validator';
 
 export interface PersonalNumberParseResult {
@@ -58,6 +51,6 @@ export const parse = (value: string): PersonalNumberParseResult | undefined => {
     dateOfBirth,
     gender,
     birthOrder,
-    controlDigit,
+    controlDigit
   };
 };
