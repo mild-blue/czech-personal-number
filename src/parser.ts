@@ -11,7 +11,7 @@ export interface PersonalNumberParseResult {
 
 export enum Gender {
   F = 'F',
-  M = 'M',
+  M = 'M'
 }
 
 /**

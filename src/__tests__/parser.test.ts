@@ -13,7 +13,7 @@ test('A female born on 18.05.2000', () => {
     gender,
     birthOrder,
     dateOfBirth,
-    controlDigit,
+    controlDigit
   };
 
   expect(parse(`${firstPart}0${birthOrder}${controlDigit}`)).toEqual(expectedResult);
@@ -31,7 +31,7 @@ test('A male born on 04.10.1939', () => {
     gender,
     birthOrder,
     dateOfBirth,
-    controlDigit: undefined,
+    controlDigit: undefined
   };
 
   expect(parse(`${firstPart}${birthOrder}`)).toEqual(expectedResult);

@@ -1,10 +1,4 @@
-import {
-  getPersonalNumberParts,
-  personalNumberAddingTwentyIssueYear,
-  tenDigitPersonalNumberIssueYear,
-  unprobableMonthAddition,
-  womanMonthAddition,
-} from './utils';
+import { getPersonalNumberParts, personalNumberAddingTwentyIssueYear, tenDigitPersonalNumberIssueYear, unprobableMonthAddition, womanMonthAddition } from './utils';
 
 const validateDate = (year: number, month: number, day: number): boolean => {
   const fullYear = year >= tenDigitPersonalNumberIssueYear ? 1900 + year : 2000 + year;
