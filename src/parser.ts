@@ -1,4 +1,4 @@
-import { getAge, getPersonalNumberParts, tenDigitPersonalNumberIssueYear, unprobableMonthAddition, womanMonthAddition } from './utils';
+import { getAge, getFullBirthYear, getPersonalNumberParts, unprobableMonthAddition, womanMonthAddition } from './utils';
 import { validate } from './validator';
 
 export interface PersonalNumberParseResult {
@@ -43,8 +43,7 @@ export const parse = (value: string): PersonalNumberParseResult | undefined => {
     month -= unprobableMonthAddition;
   }
 
-  const fullYear = year >= tenDigitPersonalNumberIssueYear || secondPart.length === 3 ? 1900 + year : 2000 + year;
-  const dateOfBirth = new Date(fullYear, month - 1, day);
+  const dateOfBirth = new Date(getFullBirthYear(secondPart, year), month - 1, day);
 
   return {
     age: getAge(dateOfBirth),

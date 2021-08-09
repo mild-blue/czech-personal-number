@@ -1,9 +1,8 @@
-import { getPersonalNumberParts, personalNumberAddingTwentyIssueYear, tenDigitPersonalNumberIssueYear, unprobableMonthAddition, womanMonthAddition } from './utils';
+import { getFullBirthYear, getPersonalNumberParts, personalNumberAddingTwentyIssueYear, unprobableMonthAddition, womanMonthAddition } from './utils';
 
 const validateDate = (year: number, month: number, day: number): boolean => {
-  const fullYear = year >= tenDigitPersonalNumberIssueYear ? 1900 + year : 2000 + year;
   try {
-    const _ = new Date(fullYear, month - 1, day);
+    const _ = new Date(year, month - 1, day);
     return true;
   } catch {
     return false;
@@ -22,8 +21,10 @@ export const validate = (value: string): boolean => {
   }
 
   const { firstPart, secondPart } = getPersonalNumberParts(value);
+  const isFirstPartCorrect = firstPart.length === 6;
+  const isSecondPartCorrect = secondPart.length === 3 || secondPart.length === 4;
 
-  if (firstPart.length !== 6 || isNaN(Number(firstPart)) || secondPart.length === 0 || isNaN(Number(secondPart))) {
+  if (!isFirstPartCorrect || !isSecondPartCorrect) {
     return false;
   }
 
@@ -31,25 +32,15 @@ export const validate = (value: string): boolean => {
   let month = Number(firstPart.substr(2, 2));
   const day = Number(firstPart.substr(4, 2));
 
-  const currentYear = new Date().getFullYear() % 100;
+  if (secondPart.length === 4) {
+    const controlDigit = Number(secondPart.substr(3, 1));
+    const concatenated = Number(firstPart + secondPart);
 
-  if (year >= tenDigitPersonalNumberIssueYear || year <= currentYear) {
-    if (secondPart.length === 4) {
-      const controlDigit = Number(secondPart.substr(3, 1));
-      const concatenated = Number(firstPart + secondPart);
+    const moduloElevenOk = concatenated % 11 === 0;
+    const withoutLastDigit = concatenated / 10;
+    const moduloTenOk = withoutLastDigit % 11 === 10 && controlDigit === 0;
 
-      const moduloElevenOk = concatenated % 11 === 0;
-      const withoutLastDigit = concatenated / 10;
-      const moduloTenOk = withoutLastDigit % 11 === 10 && controlDigit === 0;
-
-      if (!moduloTenOk && !moduloElevenOk) {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  } else {
-    if (secondPart.length !== 3) {
+    if (!moduloTenOk && !moduloElevenOk) {
       return false;
     }
   }
@@ -66,5 +57,5 @@ export const validate = (value: string): boolean => {
     }
   }
 
-  return validateDate(year, month, day);
+  return validateDate(getFullBirthYear(secondPart, year), month, day);
 };
