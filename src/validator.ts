@@ -23,7 +23,7 @@ export const validate = (value: string): boolean => {
 
   const { firstPart, secondPart } = getPersonalNumberParts(value);
 
-  if (firstPart.length !== 6 || isNaN(Number(firstPart)) || isNaN(Number(secondPart))) {
+  if (firstPart.length !== 6 || isNaN(Number(firstPart)) || secondPart.length === 0 || isNaN(Number(secondPart))) {
     return false;
   }
 
@@ -53,6 +53,7 @@ export const validate = (value: string): boolean => {
       return false;
     }
   }
+
   if (month > womanMonthAddition) {
     month -= womanMonthAddition;
   }

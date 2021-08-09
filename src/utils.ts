@@ -16,7 +16,7 @@ export const getPersonalNumberParts = (value: string): PersonalNumberParts => {
   if (parts.length === 1) {
     firstPart = value.substr(0, 6);
     secondPart = value.substr(6);
-  } else {
+  } else if (parts.length === 2) {
     firstPart = parts[0];
     secondPart = parts[1];
   }
@@ -25,8 +25,11 @@ export const getPersonalNumberParts = (value: string): PersonalNumberParts => {
 };
 
 export const getAge = (dateOfBirth: Date): number => {
-  const ageDifMs = Date.now() - dateOfBirth.getTime();
-  const ageDate = new Date(ageDifMs);
-  const year = 1970;
-  return Math.abs(ageDate.getUTCFullYear() - year);
+  const today = new Date();
+  const monthDiff = today.getMonth() - dateOfBirth.getMonth();
+  let age = today.getFullYear() - dateOfBirth.getFullYear();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dateOfBirth.getDate())) {
+    age--;
+  }
+  return age;
 };
