@@ -39,6 +39,42 @@ test('A female born on 18.05.1900', () => {
   expect(parse(`${firstPart}/${birthOrder}`)).toEqual(expectedResult);
 });
 
+test('A female born on 01.01.1953 with addition of 20', () => {
+  const gender = Gender.F;
+  const dateOfBirth = new Date(1953, 0, 1);
+  const firstPart = '537101';
+  const birthOrder = 1;
+  const controlDigit = undefined;
+
+  const expectedResult: PersonalNumberParseResult = {
+    age: getAge(dateOfBirth),
+    gender,
+    birthOrder,
+    dateOfBirth,
+    controlDigit
+  };
+
+  expect(parse(`${firstPart}/00${birthOrder}`)).toEqual(expectedResult);
+});
+
+test('A male born on 01.01.1954 with addition of 20', () => {
+  const gender = Gender.M;
+  const dateOfBirth = new Date(1954, 0, 1);
+  const firstPart = '542101';
+  const birthOrder = 1;
+  const controlDigit = 2;
+
+  const expectedResult: PersonalNumberParseResult = {
+    age: getAge(dateOfBirth),
+    gender,
+    birthOrder,
+    dateOfBirth,
+    controlDigit
+  };
+
+  expect(parse(`${firstPart}/00${birthOrder}${controlDigit}`)).toEqual(expectedResult);
+});
+
 test('A male born on 04.10.1939', () => {
   const gender = Gender.M;
   const dateOfBirth = new Date(1939, 9, 4);

@@ -26,9 +26,10 @@ export const getPersonalNumberParts = (value: string): PersonalNumberParts => {
 
 export const getFullBirthYear = (secondPart: string, year: number): number => {
   let fullYear = 1900 + year;
+
   if (secondPart.length === 3 && year >= tenDigitPersonalNumberIssueYear) {
     fullYear = 1800 + year;
-  } else if (secondPart.length === 4) {
+  } else if (secondPart.length === 4 && year < tenDigitPersonalNumberIssueYear) {
     fullYear = 2000 + year;
   }
 
