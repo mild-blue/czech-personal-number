@@ -26,3 +26,7 @@ test('Invalid personal numbers with invalid date of birth', () => {
 test('Invalid personal numbers with non-zero reminder', () => {
   expect(validate('720909/7180')).toBe(false);
 });
+
+test('Valid personal number in the future', () => {
+  expect(validate('530110/0013')).toBe(false);
+});

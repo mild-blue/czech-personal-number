@@ -110,3 +110,26 @@ test('A male born on 9.9.1872', () => {
   expect(parse(`${firstPart}${birthOrder}`)).toEqual(expectedResult);
   expect(parse(`${firstPart}/${birthOrder}`)).toEqual(expectedResult);
 });
+
+test('A male born on 10.1.2021', () => {
+  const gender = Gender.M;
+  const dateOfBirth = new Date(2021, 0, 10);
+  const firstPart = '210110';
+  const birthOrder = 609;
+  const controlDigit = 5;
+
+  const expectedResult: PersonalNumberParseResult = {
+    age: getAge(dateOfBirth),
+    gender,
+    birthOrder,
+    dateOfBirth,
+    controlDigit
+  };
+
+  expect(parse(`${firstPart}${birthOrder}${controlDigit}`)).toEqual(expectedResult);
+  expect(parse(`${firstPart}/${birthOrder}${controlDigit}`)).toEqual(expectedResult);
+});
+
+test('A male born on 10.1.2053', () => {
+  expect(parse(`530110/0013`)).toEqual(undefined);
+});

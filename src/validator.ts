@@ -1,9 +1,11 @@
 import { getFullBirthYear, getPersonalNumberParts, personalNumberAddingTwentyIssueYear, unprobableMonthAddition, womanMonthAddition } from './utils';
 
 const validateDate = (year: number, month: number, day: number): boolean => {
+  const now = new Date();
   try {
-    const _ = new Date(year, month - 1, day);
-    return true;
+    const dateOfBirth = new Date(year, month - 1, day);
+
+    return dateOfBirth <= now;
   } catch {
     return false;
   }
