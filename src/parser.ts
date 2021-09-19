@@ -1,5 +1,4 @@
 import { getAge, getDateOfBirth, getFullBirthYear, splitPersonalNumberValue } from './utils';
-import { ParsedPersonalNumber } from './model/ParsedPersonalNumber.interface';
 import { Gender } from './model/Gender.enum';
 import { personalNumberAddingTwentyIssueYear, unprobableMonthAddition, womanMonthAddition } from './model/constants';
 import { ParsingResult } from './model/ParsingResult.interface';
@@ -8,8 +7,9 @@ import { ParsingResult } from './model/ParsingResult.interface';
  * Personal number parser. Returns age, date of birth, gender, birth order from that day, and a control digit from given personal number.
  *
  * @param value - The personal number with or without a slash symbol.
- * @returns ParsedPersonalNumber if value is a valid personal number.
- * @throws Error with a description of error in value.
+ * @returns ParsingResult
+ * If value is a valid personal number, ParsingResult.result will set to parsing result.
+ * If value is not a valid personal number, ParsingResult.result will be set to undefined, ParsingResult.message will contain an error message.
  */
 export const parse = (value: string): ParsingResult => {
   if (!value) {

@@ -5,7 +5,9 @@ import { ValidationResult } from './model/ValidationResult.interface';
  * Personal number validator
  *
  * @param value - The personal number with or without a slash symbol.
- * @returns true if value is a valid personal number, error message if value is not a valid personal number.
+ * @returns ValidationResult
+ * If value is a valid personal number, ValidationResult.isValid will be set to true, ValidationResult.detail will contain parsing result.
+ * If value is not a valid personal number, ValidationResult.isValid will be set to false, ValidationResult.detail will contain an error message.
  */
 export const validate = (value: string): ValidationResult => {
   const parserResult = parse(value);
