@@ -28,6 +28,24 @@ test('A female born on 18.05.1900', () => {
   const gender = Gender.F;
   const dateOfBirth = new Date(1900, 4, 18);
   const firstPart = '005518';
+  const birthOrder = 53;
+  const controlDigit = undefined;
+
+  const expectedResult: ParsedPersonalNumber = {
+    age: getAge(dateOfBirth),
+    gender,
+    birthOrder,
+    dateOfBirth,
+    controlDigit
+  };
+
+  expect(parse(`${firstPart}/0${birthOrder}`)).toHaveProperty('result', expectedResult);
+});
+
+test('A female born on 18.05.1900', () => {
+  const gender = Gender.F;
+  const dateOfBirth = new Date(1900, 4, 18);
+  const firstPart = '005518';
   const birthOrder = 532;
   const controlDigit = undefined;
 
@@ -94,6 +112,7 @@ test('A male born on 04.10.1939', () => {
 
   expect(parse(`${firstPart}${birthOrder}`)).toHaveProperty('result', expectedResult);
   expect(parse(`${firstPart}/${birthOrder}`)).toHaveProperty('result', expectedResult);
+  expect(parse(`${firstPart}/${birthOrder}8`)).toEqual({ result: undefined, message: 'Second part does not satisfy modulo condition. Given second part: 1798.' });
 });
 
 test('A male born on 9.9.1872', () => {
