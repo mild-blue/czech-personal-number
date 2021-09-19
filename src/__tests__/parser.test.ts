@@ -18,9 +18,12 @@ test('A female born on 18.05.2000', () => {
     controlDigit
   };
 
-  expect(parse(`${firstPart}0${birthOrder}${controlDigit}`)).toEqual(expectedResult);
-  expect(parse(`${firstPart}/0${birthOrder}${controlDigit}`)).toEqual(expectedResult);
-  expect(parse(`${firstPart}/${birthOrder}`)).toEqual(undefined);
+  const secondPart = `0${birthOrder}${controlDigit}`;
+  expect(parse(`${firstPart}${secondPart}`)).toEqual(expectedResult);
+  expect(parse(`${firstPart}/${secondPart}`)).toEqual(expectedResult);
+  expect(() => {
+    parse(`${firstPart}/${birthOrder}`);
+  }).toThrow(`Second part of personal number must have 3 or 4 digits. Given second part: ${birthOrder}.`);
 });
 
 test('A female born on 18.05.1900', () => {
@@ -41,7 +44,7 @@ test('A female born on 18.05.1900', () => {
   expect(parse(`${firstPart}/${birthOrder}`)).toEqual(expectedResult);
 });
 
-test('A female born on 01.01.1953 with addition of 20', () => {
+test('A female born on 01.01.1953 with incorrect addition of 20', () => {
   const gender = Gender.F;
   const dateOfBirth = new Date(1953, 0, 1);
   const firstPart = '537101';
@@ -56,15 +59,17 @@ test('A female born on 01.01.1953 with addition of 20', () => {
     controlDigit
   };
 
-  expect(parse(`${firstPart}/00${birthOrder}`)).toEqual(expectedResult);
+  expect(() => {
+    parse(`${firstPart}/00${birthOrder}`);
+  }).toThrow('Value of the month "21" has unprobable month addition of 20, but value of the year "1953" is earlier than 2004.');
 });
 
-test('A male born on 01.01.1954 with addition of 20', () => {
+test('A male born on 21.01.2014 with correct addition of 20', () => {
   const gender = Gender.M;
-  const dateOfBirth = new Date(1954, 0, 1);
-  const firstPart = '542101';
+  const dateOfBirth = new Date(2014, 0, 21);
+  const firstPart = '142121';
   const birthOrder = 1;
-  const controlDigit = 2;
+  const controlDigit = 0;
 
   const expectedResult: PersonalNumberParseResult = {
     age: getAge(dateOfBirth),
@@ -133,5 +138,7 @@ test('A male born on 10.1.2021', () => {
 });
 
 test('A male born on 10.1.2053', () => {
-  expect(parse(`530110/0013`)).toEqual(undefined);
+  expect(() => {
+    parse(`530110/0013`);
+  }).toThrow('No valid date of birth can be created with values: year = 2053, month = 1 and day = 10.');
 });

@@ -66,7 +66,7 @@ export const parse = (value: string): PersonalNumberParseResult => {
   // Get date of birth
   const dateOfBirth = getDateOfBirth(year, month, day);
   if (!dateOfBirth) {
-    throw new Error(`No valid date can be created with values of year = ${year}, month = ${month} and day = ${day}.`);
+    throw new Error(`No valid date of birth can be created with values: year = ${year}, month = ${month} and day = ${day}.`);
   }
 
   // Get birth order
