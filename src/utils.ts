@@ -1,14 +1,7 @@
-export interface PersonalNumberParts {
-  firstPart: string;
-  secondPart: string;
-}
+import { PersonalNumberParts } from './model/PersonalNumberParts.interface';
+import { tenDigitPersonalNumberIssueYear } from './model/constants';
 
-export const personalNumberAddingTwentyIssueYear = 4;
-export const tenDigitPersonalNumberIssueYear = 54;
-export const womanMonthAddition = 50;
-export const unprobableMonthAddition = 20;
-
-export const getPersonalNumberParts = (value: string): PersonalNumberParts => {
+export const splitPersonalNumberValue = (value: string): PersonalNumberParts => {
   let firstPart = '';
   let secondPart = '';
 
@@ -44,4 +37,14 @@ export const getAge = (dateOfBirth: Date): number => {
     age--;
   }
   return age;
+};
+
+export const getDateOfBirth = (year: number, month: number, day: number): Date | false => {
+  const now = new Date();
+  try {
+    const dateOfBirth = new Date(year, month - 1, day);
+    return dateOfBirth <= now ? dateOfBirth : false;
+  } catch {
+    return false;
+  }
 };

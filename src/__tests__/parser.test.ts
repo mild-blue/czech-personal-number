@@ -1,5 +1,7 @@
-import { Gender, parse, PersonalNumberParseResult } from '../parser';
 import { getAge } from '../utils';
+import { PersonalNumberParseResult } from '../model/PersonalNumberParseResult.interface';
+import { Gender } from '../model/Gender.enum';
+import { parse } from '../parser';
 
 test('A female born on 18.05.2000', () => {
   const gender = Gender.F;
