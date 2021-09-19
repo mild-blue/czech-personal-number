@@ -1,5 +1,5 @@
 import { getAge } from '../utils';
-import { PersonalNumberParseResult } from '../model/PersonalNumberParseResult.interface';
+import { ParsedPersonalNumber } from '../model/ParsedPersonalNumber.interface';
 import { Gender } from '../model/Gender.enum';
 import { parse } from '../parser';
 
@@ -10,7 +10,7 @@ test('A female born on 18.05.2000', () => {
   const birthOrder = 53;
   const controlDigit = 2;
 
-  const expectedResult: PersonalNumberParseResult = {
+  const expectedResult: ParsedPersonalNumber = {
     age: getAge(dateOfBirth),
     gender,
     birthOrder,
@@ -19,11 +19,9 @@ test('A female born on 18.05.2000', () => {
   };
 
   const secondPart = `0${birthOrder}${controlDigit}`;
-  expect(parse(`${firstPart}${secondPart}`)).toEqual(expectedResult);
-  expect(parse(`${firstPart}/${secondPart}`)).toEqual(expectedResult);
-  expect(() => {
-    parse(`${firstPart}/${birthOrder}`);
-  }).toThrow(`Second part of personal number must have 3 or 4 digits. Given second part: ${birthOrder}.`);
+  expect(parse(`${firstPart}${secondPart}`)).toHaveProperty('result', expectedResult);
+  expect(parse(`${firstPart}/${secondPart}`)).toHaveProperty('result', expectedResult);
+  expect(parse(`${firstPart}/${birthOrder}`)).toHaveProperty('message', `Second part of personal number must have 3 or 4 digits. Given second part: ${birthOrder}.`);
 });
 
 test('A female born on 18.05.1900', () => {
@@ -33,7 +31,7 @@ test('A female born on 18.05.1900', () => {
   const birthOrder = 532;
   const controlDigit = undefined;
 
-  const expectedResult: PersonalNumberParseResult = {
+  const expectedResult: ParsedPersonalNumber = {
     age: getAge(dateOfBirth),
     gender,
     birthOrder,
@@ -41,7 +39,7 @@ test('A female born on 18.05.1900', () => {
     controlDigit
   };
 
-  expect(parse(`${firstPart}/${birthOrder}`)).toEqual(expectedResult);
+  expect(parse(`${firstPart}/${birthOrder}`)).toHaveProperty('result', expectedResult);
 });
 
 test('A female born on 01.01.1953 with incorrect addition of 20', () => {
@@ -51,7 +49,7 @@ test('A female born on 01.01.1953 with incorrect addition of 20', () => {
   const birthOrder = 1;
   const controlDigit = undefined;
 
-  const expectedResult: PersonalNumberParseResult = {
+  const expectedResult: ParsedPersonalNumber = {
     age: getAge(dateOfBirth),
     gender,
     birthOrder,
@@ -59,9 +57,7 @@ test('A female born on 01.01.1953 with incorrect addition of 20', () => {
     controlDigit
   };
 
-  expect(() => {
-    parse(`${firstPart}/00${birthOrder}`);
-  }).toThrow('Value of the month "21" has unprobable month addition of 20, but value of the year "1953" is earlier than 2004.');
+  expect(parse(`${firstPart}/00${birthOrder}`)).toHaveProperty('message', 'Value of the month "21" has unprobable month addition of 20, but value of the year "1953" is earlier than 2004.');
 });
 
 test('A male born on 21.01.2014 with correct addition of 20', () => {
@@ -71,7 +67,7 @@ test('A male born on 21.01.2014 with correct addition of 20', () => {
   const birthOrder = 1;
   const controlDigit = 0;
 
-  const expectedResult: PersonalNumberParseResult = {
+  const expectedResult: ParsedPersonalNumber = {
     age: getAge(dateOfBirth),
     gender,
     birthOrder,
@@ -79,7 +75,7 @@ test('A male born on 21.01.2014 with correct addition of 20', () => {
     controlDigit
   };
 
-  expect(parse(`${firstPart}/00${birthOrder}${controlDigit}`)).toEqual(expectedResult);
+  expect(parse(`${firstPart}/00${birthOrder}${controlDigit}`)).toHaveProperty('result', expectedResult);
 });
 
 test('A male born on 04.10.1939', () => {
@@ -88,7 +84,7 @@ test('A male born on 04.10.1939', () => {
   const firstPart = '391004';
   const birthOrder = 179;
 
-  const expectedResult: PersonalNumberParseResult = {
+  const expectedResult: ParsedPersonalNumber = {
     age: getAge(dateOfBirth),
     gender,
     birthOrder,
@@ -96,8 +92,8 @@ test('A male born on 04.10.1939', () => {
     controlDigit: undefined
   };
 
-  expect(parse(`${firstPart}${birthOrder}`)).toEqual(expectedResult);
-  expect(parse(`${firstPart}/${birthOrder}`)).toEqual(expectedResult);
+  expect(parse(`${firstPart}${birthOrder}`)).toHaveProperty('result', expectedResult);
+  expect(parse(`${firstPart}/${birthOrder}`)).toHaveProperty('result', expectedResult);
 });
 
 test('A male born on 9.9.1872', () => {
@@ -106,7 +102,7 @@ test('A male born on 9.9.1872', () => {
   const firstPart = '720909';
   const birthOrder = 728;
 
-  const expectedResult: PersonalNumberParseResult = {
+  const expectedResult: ParsedPersonalNumber = {
     age: getAge(dateOfBirth),
     gender,
     birthOrder,
@@ -114,8 +110,8 @@ test('A male born on 9.9.1872', () => {
     controlDigit: undefined
   };
 
-  expect(parse(`${firstPart}${birthOrder}`)).toEqual(expectedResult);
-  expect(parse(`${firstPart}/${birthOrder}`)).toEqual(expectedResult);
+  expect(parse(`${firstPart}${birthOrder}`)).toHaveProperty('result', expectedResult);
+  expect(parse(`${firstPart}/${birthOrder}`)).toHaveProperty('result', expectedResult);
 });
 
 test('A male born on 10.1.2021', () => {
@@ -125,7 +121,7 @@ test('A male born on 10.1.2021', () => {
   const birthOrder = 609;
   const controlDigit = 5;
 
-  const expectedResult: PersonalNumberParseResult = {
+  const expectedResult: ParsedPersonalNumber = {
     age: getAge(dateOfBirth),
     gender,
     birthOrder,
@@ -133,12 +129,10 @@ test('A male born on 10.1.2021', () => {
     controlDigit
   };
 
-  expect(parse(`${firstPart}${birthOrder}${controlDigit}`)).toEqual(expectedResult);
-  expect(parse(`${firstPart}/${birthOrder}${controlDigit}`)).toEqual(expectedResult);
+  expect(parse(`${firstPart}${birthOrder}${controlDigit}`)).toHaveProperty('result', expectedResult);
+  expect(parse(`${firstPart}/${birthOrder}${controlDigit}`)).toHaveProperty('result', expectedResult);
 });
 
 test('A male born on 10.1.2053', () => {
-  expect(() => {
-    parse(`530110/0013`);
-  }).toThrow('No valid date of birth can be created with values: year = 2053, month = 1 and day = 10.');
+  expect(parse(`530110/0013`)).toHaveProperty('message', 'No valid date of birth can be created with values: year = 2053, month = 1 and day = 10.');
 });
