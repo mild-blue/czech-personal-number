@@ -4,7 +4,7 @@ import { personalNumberAddingTwentyIssueYear, unprobableMonthAddition, womanMont
 import { ParsingResult } from './model/ParsingResult.interface';
 
 /**
- * Personal number parser. Returns age, date of birth, gender, birth order from that day, and a control digit from given personal number.
+ * Personal number parser. Returns age, date of birth, gender, birth order from that day and a control digit from given personal number.
  *
  * @param value - The personal number with or without a slash symbol.
  * @returns ParsingResult
