@@ -21,7 +21,7 @@ test('A female born on 18.05.2000', () => {
   const secondPart = `0${birthOrder}${controlDigit}`;
   expect(parse(`${firstPart}${secondPart}`)).toHaveProperty('result', expectedResult);
   expect(parse(`${firstPart}/${secondPart}`)).toHaveProperty('result', expectedResult);
-  expect(parse(`${firstPart}/${birthOrder}`)).toHaveProperty('message', `Second part of personal number must have 3 or 4 digits. Given second part: ${birthOrder}.`);
+  expect(parse(`${firstPart}/${birthOrder}`)).toHaveProperty('message', `Second part of personal number must have 3 or 4 digits. Input value: ${firstPart}/${birthOrder}. Second part: ${birthOrder}.`);
 });
 
 test('A female born on 18.05.1900', () => {
@@ -112,7 +112,7 @@ test('A male born on 04.10.1939', () => {
 
   expect(parse(`${firstPart}${birthOrder}`)).toHaveProperty('result', expectedResult);
   expect(parse(`${firstPart}/${birthOrder}`)).toHaveProperty('result', expectedResult);
-  expect(parse(`${firstPart}/${birthOrder}8`)).toEqual({ result: undefined, message: 'Second part does not satisfy modulo condition. Given second part: 1798.' });
+  expect(parse(`${firstPart}/${birthOrder}8`)).toEqual({ result: undefined, message: `Given personal number does not satisfy modulo condition. Input value: ${firstPart}/${birthOrder}8.` });
 });
 
 test('A male born on 9.9.1872', () => {
@@ -153,5 +153,5 @@ test('A male born on 10.1.2021', () => {
 });
 
 test('A male born on 10.1.2053', () => {
-  expect(parse(`530110/0013`)).toHaveProperty('message', 'No valid date of birth can be created with values: year = 2053, month = 1 and day = 10.');
+  expect(parse(`530110/0013`)).toHaveProperty('message', 'Not a valid date of birth. Values: year = 2053, month = 1 and day = 10.');
 });

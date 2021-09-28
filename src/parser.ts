@@ -23,7 +23,7 @@ export const parse = (value: string): ParsingResult => {
   if (firstPart.length !== 6) {
     return {
       result: undefined,
-      message: `First part of personal number must have 6 digits. Input value: ${value}. First part: ${firstPart}. `
+      message: `First part of personal number must have 6 digits. Input value: ${value}. First part: ${firstPart}.`
     };
   } else if (secondPart.length !== 3 && secondPart.length !== 4) {
     return {
