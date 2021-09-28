@@ -1,6 +1,6 @@
 import { getAge, getDateOfBirth, getFullBirthYear, splitPersonalNumberValue } from './utils';
 import { Gender } from './model/Gender.enum';
-import { personalNumberAddingTwentyIssueYear, unprobableMonthAddition, womanMonthAddition } from './model/constants';
+import { improbableMonthAddition, personalNumberAddingTwentyIssueYear, womanMonthAddition } from './model/constants';
 import { ParsingResult } from './model/ParsingResult.interface';
 
 /**
@@ -23,12 +23,12 @@ export const parse = (value: string): ParsingResult => {
   if (firstPart.length !== 6) {
     return {
       result: undefined,
-      message: `First part of personal number must have 6 digits. Given first part: ${firstPart}.`
+      message: `First part of personal number must have 6 digits. Input value: ${value}. First part: ${firstPart}. `
     };
   } else if (secondPart.length !== 3 && secondPart.length !== 4) {
     return {
       result: undefined,
-      message: `Second part of personal number must have 3 or 4 digits. Given second part: ${secondPart}.`
+      message: `Second part of personal number must have 3 or 4 digits. Input value: ${value}. Second part: ${secondPart}.`
     };
   }
 
@@ -46,7 +46,7 @@ export const parse = (value: string): ParsingResult => {
     if (!moduloTenOk && !moduloElevenOk) {
       return {
         result: undefined,
-        message: `Second part does not satisfy modulo condition. Given second part: ${secondPart}.`
+        message: `Given personal number does not satisfy modulo condition. Input value: ${value}.`
       };
     }
   }
@@ -64,14 +64,14 @@ export const parse = (value: string): ParsingResult => {
   // Get year
   const year = getFullBirthYear(secondPart, Number(firstPart.substr(0, 2)));
 
-  // Remove unprobableMonthAddition if there is one
-  if (month > unprobableMonthAddition) {
+  // Remove improbableMonthAddition if there is one
+  if (month > improbableMonthAddition) {
     if (year >= personalNumberAddingTwentyIssueYear) {
-      month -= unprobableMonthAddition;
+      month -= improbableMonthAddition;
     } else {
       return {
         result: undefined,
-        message: `Value of the month "${month}" has unprobable month addition of ${unprobableMonthAddition}, but value of the year "${year}" is earlier than ${personalNumberAddingTwentyIssueYear}.`
+        message: `Value of the month "${month}" has improbable month addition of ${improbableMonthAddition}, but value of the year "${year}" is earlier than ${personalNumberAddingTwentyIssueYear}.`
       };
     }
   }
@@ -84,7 +84,7 @@ export const parse = (value: string): ParsingResult => {
   if (!dateOfBirth) {
     return {
       result: undefined,
-      message: `No valid date of birth can be created with values: year = ${year}, month = ${month} and day = ${day}.`
+      message: `Not a valid date of birth. Values: year = ${year}, month = ${month} and day = ${day}.`
     };
   }
 
@@ -93,12 +93,6 @@ export const parse = (value: string): ParsingResult => {
 
   // Get age
   const age = getAge(dateOfBirth);
-  if (age < 0) {
-    return {
-      result: undefined,
-      message: `Age is negative for the given date of birth: ${dateOfBirth.toISOString()}.`
-    };
-  }
 
   return {
     result: {

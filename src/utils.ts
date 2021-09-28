@@ -39,12 +39,12 @@ export const getAge = (dateOfBirth: Date): number => {
   return age;
 };
 
-export const getDateOfBirth = (year: number, month: number, day: number): Date | false => {
+export const getDateOfBirth = (year: number, month: number, day: number): Date | undefined => {
   const now = new Date();
   try {
     const dateOfBirth = new Date(year, month - 1, day);
-    return dateOfBirth <= now ? dateOfBirth : false;
+    return dateOfBirth <= now ? dateOfBirth : undefined;
   } catch {
-    return false;
+    return undefined;
   }
 };

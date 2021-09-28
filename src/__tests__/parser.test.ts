@@ -75,7 +75,7 @@ test('A female born on 01.01.1953 with incorrect addition of 20', () => {
     controlDigit
   };
 
-  expect(parse(`${firstPart}/00${birthOrder}`)).toHaveProperty('message', 'Value of the month "21" has unprobable month addition of 20, but value of the year "1953" is earlier than 2004.');
+  expect(parse(`${firstPart}/00${birthOrder}`)).toHaveProperty('message', 'Value of the month "21" has improbable month addition of 20, but value of the year "1953" is earlier than 2004.');
 });
 
 test('A male born on 21.01.2014 with correct addition of 20', () => {
