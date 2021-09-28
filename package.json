@@ -1,5 +1,5 @@
 {
-  "name": "personal-number",
+  "name": "czech-personal-number",
   "version": "1.0.0",
   "title": "Czech personal identity number util",
   "description": "Validates and extracts information from Czech personal identity number",
@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mild-blue/personal-number.git"
+    "url": "git+https://github.com/mild-blue/czech-personal-number.git"
   },
   "keywords": [
     "czech",
@@ -32,9 +32,9 @@
   "author": "Mild Blue s.r.o. <info@mild.blue>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mild-blue/personal-number/issues"
+    "url": "https://github.com/mild-blue/czech-personal-number/issues"
   },
-  "homepage": "https://github.com/mild-blue/personal-number#readme",
+  "homepage": "https://github.com/mild-blue/czech-personal-number#readme",
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "jest": "^27.0.6",
