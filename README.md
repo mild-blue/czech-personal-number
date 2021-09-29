@@ -2,6 +2,20 @@
 
 A package that validates and parses Czech personal identity numbers.
 
+## Intallation
+
+NPM:
+
+```
+npm install czech-personal-number
+```
+
+Yarn:
+
+```
+yarn add czech-personal-number
+```
+
 ## Supported values
 
 The supported range of birth years is from `1900` until the current year. For example,
