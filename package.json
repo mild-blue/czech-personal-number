@@ -1,6 +1,6 @@
 {
   "name": "czech-personal-number",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "title": "Czech personal identity number util",
   "description": "Validates and extracts information from Czech personal identity number",
   "main": "lib/index.js",
