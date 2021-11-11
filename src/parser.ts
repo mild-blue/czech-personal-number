@@ -90,6 +90,12 @@ export const parse = (value: string): ParsingResult => {
 
   // Get birth order
   const birthOrder = Number(secondPart.substr(0, 3));
+  if (Number(birthOrder) < 1) {
+    return {
+      result: undefined,
+      message: `Value of birth order is invalid. Given value: ${birthOrder}.`
+    };
+  }
 
   // Get age
   const age = getAge(dateOfBirth);
