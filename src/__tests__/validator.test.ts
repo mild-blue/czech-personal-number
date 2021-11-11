@@ -18,6 +18,11 @@ test('Invalid personal numbers with invalid length', () => {
   expect(validate('72090978')).toHaveProperty('detail', 'Second part of personal number must have 3 or 4 digits. Input value: 72090978. Second part: 78.');
 });
 
+test('Valid and invalid birth order', () => {
+  expect(validate('900203/000')).toHaveProperty('detail', 'Value of birth order is invalid. Given value: 0.');
+  expect(validate('900203/001')).toHaveProperty('isValid', true);
+});
+
 test('Invalid personal numbers with invalid second part', () => {
   expect(validate('721909/1349')).toHaveProperty('detail', 'Given personal number does not satisfy modulo condition. Input value: 721909/1349.');
   expect(validate('720939/1349')).toHaveProperty('detail', 'Given personal number does not satisfy modulo condition. Input value: 720939/1349.');
