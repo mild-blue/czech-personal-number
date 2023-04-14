@@ -155,3 +155,22 @@ test('A male born on 10.1.2021', () => {
 test('A male born on 10.1.2053', () => {
   expect(parse(`530110/0013`)).toHaveProperty('message', 'Not a valid date of birth. Values: year = 2053, month = 1 and day = 10.');
 });
+
+test('A male born on 11.11.2011 with 0000 as second part', () => {
+  const gender = Gender.M;
+  const dateOfBirth = new Date(2011, 10, 11);
+  const firstPart = '111111';
+  const birthOrder = 0;
+  const controlDigit = 0;
+
+  const expectedResult: ParsedPersonalNumber = {
+    age: getAge(dateOfBirth),
+    gender,
+    birthOrder,
+    dateOfBirth,
+    controlDigit
+  };
+
+  expect(parse(`${firstPart}00${birthOrder}${controlDigit}`)).toHaveProperty('result', expectedResult);
+  expect(parse(`${firstPart}/00${birthOrder}${controlDigit}`)).toHaveProperty('result', expectedResult);
+});
