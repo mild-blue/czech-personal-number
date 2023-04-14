@@ -90,7 +90,7 @@ export const parse = (value: string): ParsingResult => {
 
   // Get birth order
   const birthOrder = Number(secondPart.substr(0, 3));
-  if (Number(birthOrder) < 1) {
+  if (Number(birthOrder) < 0) {
     return {
       result: undefined,
       message: `Value of birth order is invalid. Given value: ${birthOrder}.`
